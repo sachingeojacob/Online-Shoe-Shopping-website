@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+	<title>Booking Form HTML Template</title>
+
+	<!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=Cabin:400,700" rel="stylesheet">
+
+	<!-- Bootstrap -->
+	<link type="text/css" rel="stylesheet" href="{% static 'booking/css/bootstrap.min.css' %} " />
+
+	<!-- Custom stlylesheet -->
+	<link type="text/css" rel="stylesheet" href="{% static 'booking/css/style.css' %}" />
+
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+</head>
+
+<body>
+	<div id="booking" class="section">
+		<div class="section-center">
+			<div class="container">
+				<div class="row">
+					<div class="booking-form">
+						<div class="booking-bg"></div>
+						<form method="post" action="{% url 'addbooking' %}" name="myform">
+                            {% csrf_token %}
+							<div class="form-header">
+								<h2>Booking and Shipping</h2>
+							</div>
+							<div class="form-group">
+								<span class="form-label">Address</span>
+								<input class="form-control" type="text" name="address" placeholder="Enter your email">
+							</div>
+							<div class="form-group">
+								<span class="form-label">Country</span>
+								<input class="form-control" type="text" name="country" placeholder="Enter your email">
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<span class="form-label">Pincode</span>
+										<input class="form-control" type="text" name="pincode" required>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<span class="form-label">State</span>
+										<input class="form-control" type="text" name="state" required>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<span class="form-label">Email</span>
+								<input class="form-control" type="email" name="email" placeholder="Enter your email">
+							</div>
+							<div class="form-group">
+								<span class="form-label">Phone</span>
+								<input class="form-control" type="text" name="phone" placeholder="Enter your phone number">
+							</div>
+							<div class="form-btn">
+								<button class="submit-btn" type="submit" onClick="return valid()">Book Now</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+        <script>
+            function valid(){
+                var phone=document.myform.phone.value.length;
+                if((isNaN(document.myform.phone.value))) {
+                    alert("Only numbers are allowed in phone number");
+                    document.myform.phone.focus();
+                    return false;
+                    }
+                var max=10;
+                if((phone<max) || (phone>max)) {
+                    alert("Please Enter  10 digit Contact Number");
+                    document.myform.phone.focus();
+                    return false;
+                }
+
+                var pin=document.myform.pincode.value.length;
+                if((isNaN(document.myform.pincode.value))) {
+                    alert("Only numbers are allowed in pincode");
+                    document.myform.pincode.focus();
+                    return false;
+                    }
+                var max=6;
+                if((pin<max) || (pin>max)) {
+                    alert("Please Enter  6 digit Pincode Number");
+                    document.myform.pincode.focus();
+                    return false;
+                }
+                if (!(isNaN(document.myform.country.value))) {
+                    alert("Alphabets are allowed in counter name");
+                    return false;
+                }
+                if (!(isNaN(document.myform.state.value))) {
+                    alert("Alphabets are allowed in state name");
+                    return false;
+                }
+
+            }
+
+        </script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>

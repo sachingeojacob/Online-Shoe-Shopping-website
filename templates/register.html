@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+	<head>
+		<meta charset="utf-8">
+		<title>RegistrationForm</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<!-- MATERIAL DESIGN ICONIC FONT -->
+		<link rel="stylesheet" href="{% static 'register/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css' %}">
+
+		<!-- STYLE CSS -->
+		<link rel="stylesheet" href="{% static 'register/css/style.css' %}">
+	</head>
+
+	<body>
+
+		<div class="wrapper" style="background-image: url('/static/register/images/bg-registration-form-1.jpg');">
+			<div class="inner">
+				<div class="image-holder">
+					<img src="{% static 'register/images/registration-form-1.jpg' %}" alt="">
+				</div>
+				<form action="{% url 'register' %}" method="post" name="myform">
+                    {% csrf_token %}
+					<h3>Registration Form</h3>
+					<div class="form-group">
+						<input type="text" placeholder="FirstName" class="form-control" name="fname" required>
+						<input type="text" placeholder="LastName" class="form-control" name="lname" required>
+					</div>
+					<div class="form-wrapper">
+						<input type="text" placeholder="Username" class="form-control" name="username" required>
+						<i class="zmdi zmdi-account"></i>
+					</div>
+					<div class="form-wrapper">
+						<input type="email" placeholder="EmailAddress" class="form-control" name="email" required>
+						<i class="zmdi zmdi-email"></i>
+					</div>
+					<div class="form-wrapper">
+						<select name="gender" id="" class="form-control">
+							<option value="" disabled selected>Gender</option>
+							<option value="male">Male</option>
+							<option value="female">Female</option>
+							<option value="other">Other</option>
+						</select>
+						<i class="zmdi zmdi-caret-down" style="font-size: 17px"></i>
+					</div>
+					<div class="form-wrapper">
+						<input type="password" placeholder="Password" class="form-control" name="password">
+						<i class="zmdi zmdi-lock"></i>
+					</div>
+
+					<button type="submit" onclick="return valid()">Register
+						<i class="zmdi zmdi-arrow-right"></i>
+					</button>
+				</form>
+			</div>
+		</div>
+    <script>
+        function valid(){
+                if (!(isNaN(document.myform.fname.value))) {
+                    alert("Alphabets are allowed in First name");
+                    return false;
+                }
+                if (!(isNaN(document.myform.lname.value))) {
+                    alert("Alphabets are allowed in Last name");
+                    return false;
+                }
+
+
+            }
+
+    </script>
+		
+	</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>

@@ -1,0 +1,190 @@
+{% extends 'adminhome/adminbase.html' %}
+        <!-- ============================================================== -->
+        <!-- Page Content -->
+        <!-- ============================================================== -->
+
+{% block maincontent %}
+    {% load static %}
+        <div id="page-wrapper">
+            <div class="container-fluid">
+
+                <!-- /.row -->
+                <!-- ============================================================== -->
+                <!-- Different data widgets -->
+                <!-- ============================================================== -->
+                <!-- .row -->
+                <div class="row">
+                    <div class="col-lg-4 col-sm-6 col-xs-12">
+                        <div class="white-box analytics-info">
+                            <h3 class="box-title">Total Orders</h3>
+                            <ul class="list-inline two-part">
+                                <li>
+                                    <div id="sparklinedash"></div>
+                                </li>
+                                <li class="text-right"><i class="ti-arrow-up text-success"></i> <span class="counter text-success">{{ totalorders }}</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-6 col-xs-12">
+                        <div class="white-box analytics-info">
+                            <h3 class="box-title">Total Products</h3>
+                            <ul class="list-inline two-part">
+                                <li>
+                                    <div id="sparklinedash2"></div>
+                                </li>
+                                <li class="text-right"><i class="ti-arrow-up text-purple"></i> <span class="counter text-purple">{{ pro.count }}</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-6 col-xs-12">
+                        <div class="white-box analytics-info">
+                            <h3 class="box-title">Total Users</h3>
+                            <ul class="list-inline two-part">
+                                <li>
+                                    <div id="sparklinedash3"></div>
+                                </li>
+                                <li class="text-right"><i class="ti-arrow-up text-info"></i> <span class="counter text-info">{{ user.count }}</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--/.row -->
+                <!--row -->
+                <!-- /.row -->
+
+                <!-- ============================================================== -->
+                <!-- table -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 col-sm-12">
+                        <div class="white-box">
+                            <h3 class="box-title">Recent Products</h3>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>IMAGE</th>
+                                            <th>NAME</th>
+                                            <th>TYPE</th>
+                                            <th>MATERIAL</th>
+                                            <th>Stock</th>
+                                            <th>PRICE</th>
+                                            <th>ACTION 1</th>
+                                            <th>ACTION 2</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for p in pro %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td><img src="{{ p.image.url }}" class="img-thumbnail" width="100px" height="100px"></td>
+                                            <td class="txt-oflo">{{ p.productname }}</td>
+                                            <td>{{ p.category }}</td>
+                                            <td>{{ p.material }}</td>
+                                            <td>{{ p.quantity }}</td>
+                                            <td class="txt-oflo">{{ p.price }}</td>
+                                            <td><a href="{% url 'removeproduct' p.id %}">REMOVE</a></td>
+                                            <td><a href="{% url 'updateproduct' p.id %}">UPDATE</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- chat-listing & recent comments -->
+                <!-- ============================================================== -->
+                <div class="row" id="bookings">
+                    <!-- .col -->
+                    <div class="col-md-12 col-lg-8 col-sm-12">
+                        <div class="white-box">
+                            <h3 class="box-title">Recent Booking</h3>
+                            <div class="comment-center p-t-10">
+                                {% for boook in bookings %}
+                                <div class="comment-body">
+                                    <div class="user-img"> <img src="{% static 'adminhome/plugins/images/users/pawandeep.jpg' %}" alt="user" class="img-circle">
+                                    </div>
+                                    <div class="mail-contnet">
+                                        <h5>{{ boook.user_id.username }}</h5><span class="time">STATUS : {{ boook.status }}</span>
+                                        <br/><span class="mail-desc">Total Pay: {{ boook.totalprice }}</span>
+                                        <ul>
+                                            <h2>ITEMS</h2>
+                                        {% for bi in bookitems %}
+                                            {% if bi.booking_id_id == boook.id %}
+                                                <li>{{ bi.product_id.productname }}[{{ bi.product_id.size }}] - &#8377;{{ bi.product_id.price }}</li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        </ul>
+
+                                        <ul>
+                                            <h2>BILLING ADDRESS</h2>
+                                        {% for bi in bookaddress %}
+                                            {% if bi.booking_id_id == boook.id %}
+                                                <li>House name: {{ bi.address }}</li>
+                                                <li>State: {{ bi.state }}</li>
+                                                <li>Country: {{ bi.country }}</li>
+                                                <li>Email: {{ bi.email }}</li>
+                                                <li>Pincode: {{ bi.pincode }}</li>
+                                                <li>Phone: {{ bi.phone }}</li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        </ul>
+                                        <form method="post" action="{% url 'updatebookingstatus' %}">
+                                            {% csrf_token %}
+                                        <select name="status" class="btn btn btn-rounded btn-default btn-outline m-r-5">
+                                            <option>Packing</option>
+                                            <option>Shipped</option>
+                                            <option>Delivered</option>
+                                        </select>
+                                            <input type="hidden" name="bookid" value="{{ boook.id }}">
+                                        <button type="submit" class="btn btn btn-rounded btn-default btn-outline m-r-5"><i class="ti-check text-success m-r-5" style="color: #6bc755;"></i>CONFIRM</button>
+                                            </form>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="panel">
+                            <div class="sk-chat-widgets">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        USER LISTING
+                                    </div>
+                                    <div class="panel-body">
+                                        <ul class="chatonline">
+                                            {% for u in user %}
+                                            <li>
+                                                <div class="call-chat">
+                                                    <button class="btn btn-success btn-circle btn-lg" type="button"><i class="fa fa-phone"></i></button>
+                                                    <button class="btn btn-info btn-circle btn-lg" type="button"><i class="fa fa-comments-o"></i></button>
+                                                </div>
+                                                <a href="javascript:void(0)"><img src="{% static 'adminhome/plugins/images/users/varun.jpg' %}" alt="user-img" class="img-circle"> <span>{{ u.fname }}<small class="text-success">Active</small></span></a>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page Content -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+{% endblock %}

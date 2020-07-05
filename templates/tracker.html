@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block main %}
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+	<title>Table V04</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="{% static 'Table_Fixed_Header/images/icons/favicon.ico' %}"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Table_Fixed_Header/vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Table_Fixed_Header/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Table_Fixed_Header/vendor/animate/animate.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Table_Fixed_Header/vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Table_Fixed_Header/vendor/perfect-scrollbar/perfect-scrollbar.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Table_Fixed_Header/css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'Table_Fixed_Header/css/main.css' %}">
+<!--===============================================================================================-->
+</head>
+<body>
+	
+	<div class="limiter">
+		<div class="container-table100">
+			<div class="wrap-table100">
+				<div class="table100 ver1 m-b-110">
+					<div class="table100-head">
+						<table>
+							<thead>
+								<tr class="row100 head">
+									<th class="cell100 column1">Sl no</th>
+									<th class="cell100 column2">Product</th>
+									<th class="cell100 column3">Address</th>
+									<th class="cell100 column4">Phone</th>
+									<th class="cell100 column5">Price</th>
+                                    <th class="cell100 column5">Status</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+
+					<div class="table100-body js-pscroll">
+						<table>
+							<tbody>
+                            {% for book in books %}
+								<tr class="row100 body">
+									<td class="cell100 column1">{{ forloop.counter }}</td>
+									<td class="cell100 column2">
+                                        {% for b in book.bookingitem_set.all %}
+                                            <li>{{ b.product_id.productname }}</li>
+                                        {% endfor %}
+                                    </td>
+									<td class="cell100 column3">
+                                        {% for b in book.bookingaddress_set.all %}
+                                            <li>{{ b.address }}</li>
+                                        {% endfor %}
+                                    </td>
+									<td class="cell100 column4">
+                                        {% for b in book.bookingaddress_set.all %}
+                                            <li>{{ b.phone }}</li>
+                                        {% endfor %}
+                                    </td>
+									<td class="cell100 column5">{{ book.totalprice }}</td>
+                                    <td class="cell100 column5">{{ book.status }}</td>
+								</tr>
+                            {% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<!--===============================================================================================-->	
+	<script src="{% static 'Table_Fixed_Header/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'Table_Fixed_Header/vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'Table_Fixed_Header/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'Table_Fixed_Header/vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'Table_Fixed_Header/vendor/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+	<script>
+		$('.js-pscroll').each(function(){
+			var ps = new PerfectScrollbar(this);
+
+			$(window).on('resize', function(){
+				ps.update();
+			})
+		});
+			
+		
+	</script>
+<!--===============================================================================================-->
+	<script src="{% static 'Table_Fixed_Header/js/main.js' %}"></script>
+
+</body>
+</html>
+{% endblock %}

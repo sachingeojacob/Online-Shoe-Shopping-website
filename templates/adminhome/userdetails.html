@@ -1,0 +1,40 @@
+{% extends 'adminhome/adminbase.html' %}
+
+{% block maincontent %}
+<div id="page-wrapper">
+<div class="container-fluid">
+<div class="row">
+                    <div class="col-md-12 col-lg-12 col-sm-12">
+                        <div class="white-box">
+                            <h3 class="box-title">User Details</h3>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>FIRST NAME</th>
+                                            <th>LAST NAME</th>
+                                            <th>EMAIL</th>
+                                            <th>GENDER</th>
+                                            <th>ACTION 1</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for p in userinfo %}<tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td class="txt-oflo">{{ p.fname }}</td>
+                                            <td>{{ p.lname }}</td>
+                                            <td>{{ p.email }}</td>
+                                            <td class="txt-oflo">{{ p.gender }}</td>
+                                            <td><a href="{% url 'removeuser' p.loginid_id %}">REMOVE</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+</div>
+</div>
+{% endblock %}
